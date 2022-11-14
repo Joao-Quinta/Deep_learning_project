@@ -1,3 +1,6 @@
+import torch
+import math
+
 class ReLU(object):
     def __init__(self):
         self.prev_input = 0
@@ -35,3 +38,8 @@ class Tanh(object):
         return []
 
 
+def generate__set(n):
+    input = torch.rand(n, 2)
+    radius = 1/math.sqrt(2*math.pi)# 0 if outside the disk centered at (0.5, 0.5)  of radius 1/√2π, and 1 inside
+    target = (input.sub(0.5).pow(2).sum(1).sqrt() < radius).long()
+    return input, target
