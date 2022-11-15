@@ -1,3 +1,5 @@
+import torch
+
 class ReLU(object):
     def __init__(self):
         self.prev_input = 0
@@ -33,5 +35,4 @@ class Tanh(object):
 
     def param(self):
         return []
-
-
+    
