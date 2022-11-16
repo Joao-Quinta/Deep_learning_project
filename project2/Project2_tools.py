@@ -80,3 +80,4 @@ class Linear(object):
     def param(self):
         return [(self.W_x, self.W_x_grad), (self.b, self.b_grad)]
 
+
