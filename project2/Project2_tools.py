@@ -56,7 +56,7 @@ class Linear(object):
         self.b = torch.rand(dim_y).sub(bias) #bias
         self.W_x_grad = torch.zeros(dim_y, dim_x)
         self.b_grad = torch.zeros(dim_y)
-        self.last_input = torch.zeros(dim_y)
+        self.prev_input = torch.zeros(dim_y)
 
     def SGD(self, eta):
         self.W_x = self.W_x - eta*self.W_x_grad
@@ -68,12 +68,12 @@ class Linear(object):
         self.b_grad = torch.zeros(self.dim_y)
 
     def forward(self, input):
-        self.last_input = input
+        self.prev_input = input
         return self.W_x.mv(input.T)+self.b
 
     def backward(self, input):
         self.b_grad += input
-        self.W_x_grad += input.outer(self.last_input.T)
+        self.W_x_grad += input.outer(self.prev_input.T)
 
         return self.W_x.T.mv(input)
 
