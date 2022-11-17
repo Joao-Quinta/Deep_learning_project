@@ -15,8 +15,7 @@ class ReLU(object):
     def __init__(self):
         self.prev_input = 0
 
-    def stepSGD(self,eta):
-        pass
+    
 
     def forward(self, input):
         self.prev_input = input
