@@ -3,3 +3,4 @@ data/
 Lib/
 Include/
 Scripts/
+.ipynb_checkpoints/
