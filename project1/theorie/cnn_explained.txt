@@ -1,0 +1,28 @@
+CNN
+
+epoch -> ALL data passes once though the net in 1 epoch
+
+batch size -> number of samples passed through the net at one time
+we can pass images by groups of a given size
+grouping the data improves the seed of computation
+hoever, the quality may degrade with too large batch size
+
+kernel is the filter size
+
+ReLU -> apply non linearity - images are non linear in nature, 
+by applying conv, we might turn them to linear, so we break it with ReLU
+
+batch norm -> normalize/standardize data INSIDE THE MODEL (rather than only before the model)
+these unormalize values may cascade errors through the layers -> causes exploding gradient problem
+also decreases the training speed
+we can optimize the normalization values through the training process
+
+dropout -> a unit cant rely on only 1 specific input, because every input can randomly be deleted
+and even if a unit has inputs droped, it still needs to generate an output
+The unit then spreads the weigths through the input, this shrinks weights
+it prevents overfitting -> only looks at one specific feature
+we can change this dropout prob by layer, the more weights a layer has, the higher this drop prob should be
+
+maxpool -> keep max of each pool, this reduces data size, this way we keep the most important feature
+while improving overall performance, it has no optimisable parameters, it is just hyperparameters
+other pool operations would be avearage pooling
