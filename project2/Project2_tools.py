@@ -11,6 +11,7 @@ def generate_set(n):# 0 if outside the disk centered at (0.5, 0.5)  of radius 1/
     return input, target
 
 
+
 class ReLU(object): #output = R(x), 0 if input = 0 else output = input
     def __init__(self):
         self.prev_input = 0
@@ -27,10 +28,10 @@ class ReLU(object): #output = R(x), 0 if input = 0 else output = input
         return self.prev_input.mul(gradwrtoutput)
 
     def Stock_Grad_Descent(self, LR):  # lr = LEARNING RATE
-        return []
+        pass
 
     def zero_grad(self):
-        return []
+        pass
 
     def param(self):
         return []
@@ -49,10 +50,10 @@ class Tanh(object): # use tanh func to send input in next layer
         return (1.0-torch.tanh(self.prev_input)**2).mul(gradwrtoutput)
 
     def Stock_Grad_Descent(self, LR):  # lr = LEARNING RATE
-        return []
+        pass
 
     def zero_grad(self):
-        return []
+        pass
 
     def param(self):
         return []
@@ -79,7 +80,7 @@ class Linear(object):
 
 
     def zero_grad(self):#recompute it using new parameters
-        self.W_grad = torch.zeros(self.dim_y, self.dim_x)
+        self.W_x_grad = torch.zeros(self.dim_y, self.dim_x)
         self.b_grad = torch.zeros(self.dim_y)
 
     def forward(self, input):
@@ -99,6 +100,8 @@ class Linear(object):
     def Stock_Grad_Descent(self, LR):  # LR = learning rate
         self.W_x = self.W_x - LR * self.W_x_grad
         self.b = self.b - LR * self.b_grad
+
+
     def param(self):
         return [(self.W_x, self.W_x_grad), (self.b, self.b_grad)]
 
@@ -133,3 +136,25 @@ class Sequential(object):
     def param(self):
         for i in reversed(self.arg):
             print(i.param())
+
+
+class MSE(object):
+
+    def __init__(self):
+        self.prev_input = 0
+        self.prev_target = 0
+        self.loss = 0
+
+    def forward(self, input, target):
+        # = (x-y)²
+        self.loss = torch.pow(torch.sub(input, target),2)
+        self.prev_input = input
+        self.prev_target = target
+        return self.loss
+
+    def backward(self):
+        # dL/dy = 2(x-y)
+        return 2*torch.sub(self.prev_input, self.prev_target) #dL/dy = 2(x-y)
+
+    def param(self):
+        return []
