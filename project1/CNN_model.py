@@ -3,7 +3,7 @@ from torch.nn import functional as F
 
 
 class BinaryCNN(nn.Module):
-    def __init__(self, dropout_rate):  ## defining the layers
+    def __init__(self, dropout_rate=0.2, initial_layers=2, final_layers=2):  ## defining the layers
         super().__init__()
         self.dropoutfc = nn.Dropout(p=dropout_rate)
         self.dropoutcnn = nn.Dropout(p=0.0)
@@ -15,7 +15,7 @@ class BinaryCNN(nn.Module):
         # self.features = nn.Sequential()
 
         # Feature Extractors & Data Normalizers
-        self.conv1 = nn.Conv2d(2, 64, kernel_size=3, stride=1)
+        self.conv1 = nn.Conv2d(initial_layers, 64, kernel_size=3, stride=1)
         self.conv1_bn = nn.BatchNorm2d(64)
         self.conv2 = nn.Conv2d(64, 128, kernel_size=3, stride=1)
         self.conv2_bn = nn.BatchNorm2d(128)
@@ -25,7 +25,7 @@ class BinaryCNN(nn.Module):
         # self.batchnorm4 = nn.BatchNorm2d(128)
 
         # Classifiers & Output Layers
-        self.fc1 = nn.Linear(256, 1)
+        self.fc1 = nn.Linear(256, final_layers)
         self.fc_aux = nn.Linear(256, 2)
         # self.fc1_bn = nn.BatchNorm1d(1)
         # self.fc2 = nn.Linear(100, 1)
@@ -33,6 +33,7 @@ class BinaryCNN(nn.Module):
 
     ## Generally, strides for convolution layers are 1 and for maxpools are 2
     def forward(self, x):
+        #print("      -> x shape -> cnn -> ",x.shape)
         ## Feature Extractors
         # print('First Input Shape: {}'.format(x.shape))
         x = F.relu(self.conv1_bn(self.conv1(x)))
@@ -59,7 +60,8 @@ class BinaryCNN(nn.Module):
         # x = F.relu(self.fc1(x))
         # x = self.batchnormfc1(x)
         # print('First Connected Layer: {} \n'.format(x.shape))
-        x = self.flatten0(x)
+        #x = self.flatten0(x)
+        #print("      -> x shape -> cnn END -> ",x.shape)
         # y = F.softmax(self.flatten1(y), dim = 1)
         # print('Final Output Shape {} \n'.format(x.shape))
         return x
