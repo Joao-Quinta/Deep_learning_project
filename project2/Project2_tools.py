@@ -6,8 +6,9 @@ import math
 
 def generate_set(n):# 0 if outside the disk centered at (0.5, 0.5)  of radius 1/√2π, and 1 inside
     input = torch.rand(n, 2)
-    radius = 1/math.sqrt(2*math.pi)
-    target = (input.sub(0.5).pow(2).sum(1).sqrt() < radius).long()
+    rad = 1/math.sqrt(2*math.pi)
+    target = (input.sub(0.5).pow(2).sum(1).sqrt() < rad).long()
+    target[target == 0] = -1
     return input, target
 
 
@@ -28,10 +29,10 @@ class ReLU(object): #output = R(x), 0 if input = 0 else output = input
         return self.prev_input.mul(gradwrtoutput)
 
     def Stock_Grad_Descent(self, LR):  # lr = LEARNING RATE
-        pass
+        return []
 
     def zero_grad(self):
-        pass
+        return []
 
     def param(self):
         return []
@@ -49,11 +50,12 @@ class Tanh(object): # use tanh func to send input in next layer
     def backward(self, gradwrtoutput):#derivative / gradiant_input
         return (1.0-torch.tanh(self.prev_input)**2).mul(gradwrtoutput)
 
+
     def Stock_Grad_Descent(self, LR):  # lr = LEARNING RATE
-        pass
+        return []
 
     def zero_grad(self):
-        pass
+        return []
 
     def param(self):
         return []
@@ -113,7 +115,7 @@ class Sequential(object):
 
 
 
-    def train_forward(self, input):
+    def forward(self, input):
         re = input
         for i in self.arg:
             re = i.forward(re)
