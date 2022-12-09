@@ -1,7 +1,7 @@
 from torch import nn
 from torch.nn import functional as F
 import torch
-from models.CNN_model import BinaryCNN_2_layer
+from models.CNN_multiple_layer_model import BinaryCNN_2_layer
 
 
 # from CNN_weight_sharing_model import CNN_WeightSharing

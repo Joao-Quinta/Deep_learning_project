@@ -28,12 +28,12 @@ class BinaryCNNAUX(nn.Module):
         img1 = x.narrow(1, 0, 1)
         img2 = x.narrow(1, 1, 1)
 
-        out1 = self.sharedConvNet(img1)
-        out1 = out1.view(out1.size(-1) // 10, 10)
+        out1_ = self.sharedConvNet(img1)
+        out1 = out1_.view(out1_.size(-1) // 10, 10)
         # print('output 1 shape', out1.shape, out1)
 
-        out2 = self.sharedConvNet(img2)
-        out2 = out2.view(out2.size(-1) // 10, 10)
+        out2_ = self.sharedConvNet(img2)
+        out2 = out2_.view(out2_.size(-1) // 10, 10)
         # print('output 2 shape', out2.shape, out2)
 
         x = torch.cat((out1, out2), 1)
@@ -43,4 +43,4 @@ class BinaryCNNAUX(nn.Module):
         # x = torch.sigmoid(x)
         # x = torch.max(x, 1)[0]
         x = self.flatten0(x)
-        return x, out1, out2
+        return x, out1_, out2_
