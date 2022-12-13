@@ -62,6 +62,5 @@ class BinaryCNNAux(nn.Module):
         x = self.flatten0(x)
         y = self.flatten1(y)
         # print('aux output', y)
-        # y = F.softmax(self.flatten1(y), dim = 1)
         # print('Final Output Shape {} \n'.format(x.shape))
         return x, y
