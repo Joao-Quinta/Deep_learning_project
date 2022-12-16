@@ -17,6 +17,7 @@ class MLP(nn.Module):
         self.fc2 = nn.Linear(1024, 512)
         self.fc3 = nn.Linear(512, 256)
         self.fc4 = nn.Linear(256, 1)  ## output layers
+        self.fc_aux = nn.Linear(256, 20)
 
     ## Generally, strides for convolution layers are 1 and for maxpools are 2
     ## Uncomment the prints for debuggingd
@@ -30,7 +31,10 @@ class MLP(nn.Module):
         # print('Second FC Layer Shape', x.shape)
         x = F.relu(self.dropout(self.fc3_bn(self.fc3(x))))
         # print('Third FC Layer Shape', x.shape)
+        y = self.fc_aux(x)
         x = self.fc4(x)
+        
         x = self.flatten_dim_0(x)
+        y = self.flatten_dim_1(y)
         # print('Final Output Shape {} \n'.format(x.shape))
-        return x
+        return x, y
